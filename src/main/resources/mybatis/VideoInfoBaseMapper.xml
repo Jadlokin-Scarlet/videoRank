@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoInfoBaseMapper">
+  <resultMap id="BaseResultMap" type="com.touhou.video.rank.entity.VideoInfo">
+    <id column="av" jdbcType="NUMERIC" property="av" />
+    <result column="name" jdbcType="NVARCHAR" property="name" />
+    <result column="img" jdbcType="NVARCHAR" property="img" />
+    <result column="type" jdbcType="NVARCHAR" property="type" />
+    <result column="owner" jdbcType="NVARCHAR" property="owner" />
+    <result column="copyright" jdbcType="BIT" property="copyright" />
+    <result column="pub_time" jdbcType="NVARCHAR" property="pubTime" />
+    <result column="start_time" jdbcType="NUMERIC" property="startTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    av, [name], img, [type], [owner], copyright, pub_time, start_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video_info
+    where av = #{av,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from video_info
+    where av = #{av,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
+    insert into video_info (av, [name], img, 
+      [type], [owner], copyright, 
+      pub_time, start_time)
+    values (#{av,jdbcType=NUMERIC}, #{name,jdbcType=NVARCHAR}, #{img,jdbcType=NVARCHAR}, 
+      #{type,jdbcType=NVARCHAR}, #{owner,jdbcType=NVARCHAR}, #{copyright,jdbcType=BIT}, 
+      #{pubTime,jdbcType=NVARCHAR}, #{startTime,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
+    insert into video_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        av,
+      </if>
+      <if test="name != null">
+        [name],
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="type != null">
+        [type],
+      </if>
+      <if test="owner != null">
+        [owner],
+      </if>
+      <if test="copyright != null">
+        copyright,
+      </if>
+      <if test="pubTime != null">
+        pub_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        #{av,jdbcType=NUMERIC},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=NVARCHAR},
+      </if>
+      <if test="copyright != null">
+        #{copyright,jdbcType=BIT},
+      </if>
+      <if test="pubTime != null">
+        #{pubTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.touhou.video.rank.entity.VideoInfo">
+    update video_info
+    <set>
+      <if test="name != null">
+        [name] = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null">
+        [type] = #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="owner != null">
+        [owner] = #{owner,jdbcType=NVARCHAR},
+      </if>
+      <if test="copyright != null">
+        copyright = #{copyright,jdbcType=BIT},
+      </if>
+      <if test="pubTime != null">
+        pub_time = #{pubTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where av = #{av,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.touhou.video.rank.entity.VideoInfo">
+    update video_info
+    set [name] = #{name,jdbcType=NVARCHAR},
+      img = #{img,jdbcType=NVARCHAR},
+      [type] = #{type,jdbcType=NVARCHAR},
+      [owner] = #{owner,jdbcType=NVARCHAR},
+      copyright = #{copyright,jdbcType=BIT},
+      pub_time = #{pubTime,jdbcType=NVARCHAR},
+      start_time = #{startTime,jdbcType=NUMERIC}
+    where av = #{av,jdbcType=NUMERIC}
+  </update>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+		"-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<!-- 本地数据库驱动程序jar包的全路径 -->
+	<classPathEntry location="C:\Users\www\.IntelliJIdea2018.3\config\jdbc-drivers\SQL Server\7.4.1\mssql-jdbc-7.4.1.jre8.jar"/>
+
+	<context id="context" targetRuntime="MyBatis3" defaultModelType="flat">
+		<property name="autoDelimitKeywords" value="true"/>
+		<property name="beginningDelimiter" value="["/>
+		<property name="endingDelimiter" value="]"/>
+
+		<plugin type="com.touhou.video.rank.config.plugin.LombokPlugin"/>
+		<plugin type="com.touhou.video.rank.config.plugin.MapperRenameToBaseMapperPlugin"/>
+		<plugin type="com.touhou.video.rank.config.plugin.keyPropertyplugin"/>
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+		<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+
+
+		<commentGenerator>
+			<property name="suppressDate" value="true"/>
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>
+		<!-- 数据库的相关配置 -->
+		<jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+						connectionURL="jdbc:sqlserver://122.51.147.107:1433;database=bilibili"
+						userId="sa"
+						password="Ls654321"/>
+		<!--实体类生成的位置-->
+		<javaModelGenerator targetPackage="com.touhou.video.rank.entity"
+							targetProject="src/main/java">
+			<property name="enableSubPackages" value="false"/>
+			<property name="trimStrings" value="true"/>
+		</javaModelGenerator>
+		<!-- *Mapper.xml 文件的位置 -->
+		<sqlMapGenerator targetPackage="mybatis"
+						 targetProject="src/main/resources">
+			<property name="enableSubPackages" value="false"/>
+		</sqlMapGenerator>
+		<!-- Mapper 接口文件的位置 -->
+		<javaClientGenerator targetPackage="com.touhou.video.rank.mapper"
+							 targetProject="src/main/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="false"/>
+		</javaClientGenerator>
+
+		<!-- 相关表的配置 -->
+		<table tableName="video_data"
+			   enableCountByExample="false"
+			   enableDeleteByExample="false"
+			   enableSelectByExample="false"
+			   enableUpdateByExample="false"/>
+		<table tableName="video_info"
+			   enableCountByExample="false"
+			   enableDeleteByExample="false"
+			   enableSelectByExample="false"
+			   enableUpdateByExample="false"/>
+		<table tableName="touhouTag"
+			   domainObjectName="VideoTag"
+			   enableCountByExample="false"
+			   enableDeleteByExample="false"
+			   enableSelectByExample="false"
+			   enableUpdateByExample="false"/>
+	</context>
+</generatorConfiguration>

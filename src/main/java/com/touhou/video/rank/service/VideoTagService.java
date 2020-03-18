@@ -1,0 +1,33 @@
+package com.touhou.video.rank.service;
+
+import com.touhou.video.rank.mapper.VideoTagMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+@Service
+public class VideoTagService {
+	private VideoTagMapper videoTagMapper;
+
+	@Autowired
+	public VideoTagService(VideoTagMapper videoTagMapper, StringRedisTemplate redis) {
+		this.videoTagMapper = videoTagMapper;
+	}
+
+	@Cacheable(cacheNames = "videoTag", key = "#av")
+	public List<String> getTags(long av) {
+		Map<String, String> map = videoTagMapper.selectForTagsByPrimaryKey(av);
+		return IntStream.range(1, 20)
+				.mapToObj(i -> "tag" + i)
+				.map(map::get)
+				.filter(tag -> tag != null && !tag.isEmpty())
+				.collect(Collectors.toList());
+	}
+}

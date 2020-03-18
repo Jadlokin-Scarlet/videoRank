@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoTagMapper">
+	<select id="selectForTagsByPrimaryKey" resultType="java.util.HashMap">
+		select
+		<include refid="com.touhou.video.rank.mapper.VideoTagBaseMapper.Base_Column_List" />
+		from touhouTag where av = #{av};
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoInfoMapper">
+	<update id="updateStartTimeByPrimaryKey">
+		update video_info
+		set start_time = #{startTime,jdbcType=NUMERIC}
+		where av = #{av,jdbcType=NUMERIC}
+	</update>
+	<delete id="updateIsDeleteByPrimaryKey">
+		update video_info
+		set is_delete = #{isDelete,jdbcType=NUMERIC}
+		where av = #{av,jdbcType=NUMERIC}
+	</delete>
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoDataBaseMapper">
+  <resultMap id="BaseResultMap" type="com.touhou.video.rank.entity.VideoData">
+    <id column="av" jdbcType="NUMERIC" property="av" />
+    <id column="issue" jdbcType="NUMERIC" property="issue" />
+    <result column="view" jdbcType="NUMERIC" property="view" />
+    <result column="reply" jdbcType="NUMERIC" property="reply" />
+    <result column="favorite" jdbcType="NUMERIC" property="favorite" />
+    <result column="coin" jdbcType="NUMERIC" property="coin" />
+    <result column="page" jdbcType="NUMERIC" property="page" />
+    <result column="point" jdbcType="NUMERIC" property="point" />
+    <result column="rank" jdbcType="NUMERIC" property="rank" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    av, issue, [view], reply, favorite, coin, page, point, [rank]
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video_data
+    where av = #{av,jdbcType=NUMERIC}
+      and issue = #{issue,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from video_data
+    where av = #{av,jdbcType=NUMERIC}
+      and issue = #{issue,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoData" useGeneratedKeys="true">
+    insert into video_data (av, issue, [view], 
+      reply, favorite, coin, 
+      page, point, [rank])
+    values (#{av,jdbcType=NUMERIC}, #{issue,jdbcType=NUMERIC}, #{view,jdbcType=NUMERIC}, 
+      #{reply,jdbcType=NUMERIC}, #{favorite,jdbcType=NUMERIC}, #{coin,jdbcType=NUMERIC}, 
+      #{page,jdbcType=NUMERIC}, #{point,jdbcType=NUMERIC}, #{rank,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoData" useGeneratedKeys="true">
+    insert into video_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        av,
+      </if>
+      <if test="issue != null">
+        issue,
+      </if>
+      <if test="view != null">
+        [view],
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="favorite != null">
+        favorite,
+      </if>
+      <if test="coin != null">
+        coin,
+      </if>
+      <if test="page != null">
+        page,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="rank != null">
+        [rank],
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        #{av,jdbcType=NUMERIC},
+      </if>
+      <if test="issue != null">
+        #{issue,jdbcType=NUMERIC},
+      </if>
+      <if test="view != null">
+        #{view,jdbcType=NUMERIC},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=NUMERIC},
+      </if>
+      <if test="favorite != null">
+        #{favorite,jdbcType=NUMERIC},
+      </if>
+      <if test="coin != null">
+        #{coin,jdbcType=NUMERIC},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=NUMERIC},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=NUMERIC},
+      </if>
+      <if test="rank != null">
+        #{rank,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.touhou.video.rank.entity.VideoData">
+    update video_data
+    <set>
+      <if test="view != null">
+        [view] = #{view,jdbcType=NUMERIC},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=NUMERIC},
+      </if>
+      <if test="favorite != null">
+        favorite = #{favorite,jdbcType=NUMERIC},
+      </if>
+      <if test="coin != null">
+        coin = #{coin,jdbcType=NUMERIC},
+      </if>
+      <if test="page != null">
+        page = #{page,jdbcType=NUMERIC},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=NUMERIC},
+      </if>
+      <if test="rank != null">
+        [rank] = #{rank,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where av = #{av,jdbcType=NUMERIC}
+      and issue = #{issue,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.touhou.video.rank.entity.VideoData">
+    update video_data
+    set [view] = #{view,jdbcType=NUMERIC},
+      reply = #{reply,jdbcType=NUMERIC},
+      favorite = #{favorite,jdbcType=NUMERIC},
+      coin = #{coin,jdbcType=NUMERIC},
+      page = #{page,jdbcType=NUMERIC},
+      point = #{point,jdbcType=NUMERIC},
+      [rank] = #{rank,jdbcType=NUMERIC}
+    where av = #{av,jdbcType=NUMERIC}
+      and issue = #{issue,jdbcType=NUMERIC}
+  </update>
+</mapper>
