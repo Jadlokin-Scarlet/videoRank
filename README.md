@@ -4,5 +4,5 @@ bilibili东方tag视频信息管理系统的后端
 
 再进行计分排名后导出至视频脚本生成排行榜视频
 
-技术栈是ssm, 使用了mybatis generator和自己写的插件
+技术栈是ssm, 使用了redis, mybatis generator和自己写的插件
 
