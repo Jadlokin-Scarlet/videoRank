@@ -26,7 +26,7 @@ public class VideoController {
 
 	@GetMapping(value = "/issue/{issue}",produces = "application/json")
 	public ResponseEntity<List<Video>> list(@PathVariable Short issue) {
-		return ResponseEntity.ok(videoService.listTop(issue));
+		return ResponseEntity.ok(videoService.listVideoTop(issue));
 	}
 
 	@DeleteMapping(value = "/{av}")
