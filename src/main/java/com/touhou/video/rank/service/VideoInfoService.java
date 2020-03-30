@@ -21,7 +21,9 @@ public class VideoInfoService {
 
 	@Cacheable(cacheNames = "videoInfo", key = "#av")
 	public VideoInfo selectByPrimaryKey(Long av) {
-		return videoInfoMapper.selectByPrimaryKey(av);
+		VideoInfo videoInfo = videoInfoMapper.selectByPrimaryKey(av);
+		String pubTime = videoInfo.getPubTime();
+		return videoInfo.setPubTime(pubTime.split(" ")[0]);
 	}
 	@CacheEvict(value = "videoInfo", key = "#av")
 	public boolean updateStartTimeByPrimaryKey(long av, int startTime) {

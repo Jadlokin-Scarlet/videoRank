@@ -25,7 +25,7 @@ public class DataFileController {
 
 	@GetMapping("/issue/{issue}/data.txt")
 	public ResponseEntity<String> updateDataFile(@PathVariable Short issue) {
-		String data = dataFileService.updateDataFile(issue);
+		String data = dataFileService.getDataFile(issue);
 		return ResponseEntity.ok()
 				.header("Content-Disposition","attachment")
 				.header("Content-Type","text/plain")
