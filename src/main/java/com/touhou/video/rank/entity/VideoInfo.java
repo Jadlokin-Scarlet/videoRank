@@ -23,5 +23,9 @@ public class VideoInfo implements Serializable {
 
     private Long startTime;
 
+    private Boolean isDelete;
+
+    private String bv;
+
     private static final long serialVersionUID = 1L;
 }

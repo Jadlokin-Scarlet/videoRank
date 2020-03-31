@@ -5,7 +5,9 @@ import com.touhou.video.rank.mapper.VideoDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.BitSet;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class VideoDataService {
@@ -36,7 +38,7 @@ public class VideoDataService {
 		return new VideoData().setAv(av).setIssue(issue);
 	}
 
-	public List<VideoData> selectTop(Short issue) {
-		return videoDataMapper.selectTop(issue);
+	public Stream<VideoData> selectAll(Short issue, int limit) {
+		return videoDataMapper.selectAll(issue, limit).stream();
 	}
 }

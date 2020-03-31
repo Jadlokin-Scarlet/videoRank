@@ -32,8 +32,8 @@ public class DataFileService {
 	}
 
 	public String getDataFile(short issue) {
-		String head = fields.stream().reduce((a, b) -> a + "\t" + b).orElse("") + "\n";
-		String data = videoService.listVideoTop(issue).stream()
+		String head = String.join("\t", fields) + "\n";
+		String data = videoService.listVideoTop(issue)
 				.map(videoService::getAndSetHisRank)
 				.map(videoService::getAndSetIsLen)
 				.map(BeanMap::new)

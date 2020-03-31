@@ -2,12 +2,12 @@ package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.entity.Video;
 import com.touhou.video.rank.entity.VideoData;
-import org.springframework.beans.BeanUtils;
+import com.touhou.video.rank.entity.VideoInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class VideoService {
@@ -23,10 +23,14 @@ public class VideoService {
 	}
 
 	private Video getVideoByVideoData(VideoData videoData) {
-		Video video = new Video();
-		BeanUtils.copyProperties(videoData, video);
-		BeanUtils.copyProperties(videoInfoService.selectByPrimaryKey(videoData.getAv()), video);
-		return video.setTags(videoTagService.getTags(videoData.getAv()));
+		VideoInfo videoInfo = videoInfoService.selectByPrimaryKey(videoData.getAv());
+		List<String> tags = videoTagService.getTags(videoData.getAv());
+		return new Video(videoData)
+				.copyProperties(videoInfo)
+				.setTags(tags);
+	}
+	private Video getVideoByVideoInfo(VideoInfo videoInfo) {
+		return new Video(videoInfo);
 	}
 
 	public Video getVideoByAv(long av, short issue){
@@ -38,10 +42,18 @@ public class VideoService {
 		return getVideoByAv(av, issue).getRank();
 	}
 
-	public List<Video> listVideoTop(Short issue) {
-		return videoDataService.selectTop(issue).stream()
-				.map(this::getVideoByVideoData)
-				.collect(Collectors.toList());
+	public Stream<Video> listVideoTop(Short issue) {
+		return listVideo(issue, 30);
+	}
+
+	public Stream<Video> listVideo(Short issue, int limit) {
+		return videoDataService.selectAll(issue, limit)
+				.map(this::getVideoByVideoData);
+	}
+
+	public Stream<Video> listVideoThatDeleted() {
+		return videoInfoService.listVideoInfoThatDeleted()
+				.map(this::getVideoByVideoInfo);
 	}
 
 	public Boolean deleteVideo(long av) {
@@ -60,9 +72,10 @@ public class VideoService {
 		Long rank = video.getRank();
 		Long hisRank = getVideoRankByAv(video.getAv(), (short) (video.getIssue() - 1));
 		Long moreHisRank = getVideoRankByAv(video.getAv(), (short) (video.getIssue() - 2));
-		boolean isLen = rank > 0 && hisRank > 0 && moreHisRank > 0;
-		isLen &= rank <= 30 && hisRank <= 30 && moreHisRank <=30;
-		return video.setIsLen(isLen? 1L : 0L);
+		return video.setIsLen(rank, hisRank, moreHisRank);
 	}
 
+	public Boolean recoveryVideo(long av) {
+		return videoInfoService.recoveryVideoByPrimaryKey(av);
+	}
 }

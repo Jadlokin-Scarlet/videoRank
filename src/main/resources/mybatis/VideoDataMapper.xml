@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.touhou.video.rank.mapper.VideoDataMapper">
-  <select id="selectTop" resultMap="com.touhou.video.rank.mapper.VideoDataBaseMapper.BaseResultMap">
-    select top 30
+  <select id="selectAll" resultMap="com.touhou.video.rank.mapper.VideoDataBaseMapper.BaseResultMap">
+    select top ${limit}
     <include refid="com.touhou.video.rank.mapper.VideoDataBaseMapper.Base_Column_List" />
     from video_data inner join (select av as info_av, is_delete from video_info) info on video_data.av = info.info_av
     where issue = #{issue,jdbcType=NUMERIC}
-      and info.is_delete = 0
+    and info.is_delete = 0
     order by point desc
   </select>
 </mapper>

@@ -10,9 +10,11 @@
     <result column="copyright" jdbcType="BIT" property="copyright" />
     <result column="pub_time" jdbcType="NVARCHAR" property="pubTime" />
     <result column="start_time" jdbcType="NUMERIC" property="startTime" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="bv" jdbcType="NVARCHAR" property="bv" />
   </resultMap>
   <sql id="Base_Column_List">
-    av, [name], img, [type], [owner], copyright, pub_time, start_time
+    av, [name], img, [type], [owner], copyright, pub_time, start_time, is_delete, bv
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,10 +29,12 @@
   <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
     insert into video_info (av, [name], img, 
       [type], [owner], copyright, 
-      pub_time, start_time)
+      pub_time, start_time, is_delete, 
+      bv)
     values (#{av,jdbcType=NUMERIC}, #{name,jdbcType=NVARCHAR}, #{img,jdbcType=NVARCHAR}, 
       #{type,jdbcType=NVARCHAR}, #{owner,jdbcType=NVARCHAR}, #{copyright,jdbcType=BIT}, 
-      #{pubTime,jdbcType=NVARCHAR}, #{startTime,jdbcType=NUMERIC})
+      #{pubTime,jdbcType=NVARCHAR}, #{startTime,jdbcType=NUMERIC}, #{isDelete,jdbcType=BIT}, 
+      #{bv,jdbcType=NVARCHAR})
   </insert>
   <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
     insert into video_info
@@ -59,6 +63,12 @@
       <if test="startTime != null">
         start_time,
       </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="bv != null">
+        bv,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="av != null">
@@ -84,6 +94,12 @@
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=NUMERIC},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="bv != null">
+        #{bv,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,6 +127,12 @@
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=NUMERIC},
       </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="bv != null">
+        bv = #{bv,jdbcType=NVARCHAR},
+      </if>
     </set>
     where av = #{av,jdbcType=NUMERIC}
   </update>
@@ -122,7 +144,9 @@
       [owner] = #{owner,jdbcType=NVARCHAR},
       copyright = #{copyright,jdbcType=BIT},
       pub_time = #{pubTime,jdbcType=NVARCHAR},
-      start_time = #{startTime,jdbcType=NUMERIC}
+      start_time = #{startTime,jdbcType=NUMERIC},
+      is_delete = #{isDelete,jdbcType=BIT},
+      bv = #{bv,jdbcType=NVARCHAR}
     where av = #{av,jdbcType=NUMERIC}
   </update>
 </mapper>

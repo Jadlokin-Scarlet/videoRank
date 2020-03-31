@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "api/video",produces = "application/json")
@@ -26,7 +27,21 @@ public class VideoController {
 
 	@GetMapping(value = "/issue/{issue}",produces = "application/json")
 	public ResponseEntity<List<Video>> list(@PathVariable Short issue) {
-		return ResponseEntity.ok(videoService.listVideoTop(issue));
+		List<Video> videoList = videoService.listVideoTop(issue)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(videoList);
+	}
+
+	@GetMapping(value = "/deleted")
+	public ResponseEntity<List<Video>> listVideoThatDeleted() {
+		List<Video> videoList = videoService.listVideoThatDeleted()
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(videoList);
+	}
+
+	@PostMapping(value = "/deleted/{av}")
+	public ResponseEntity<Boolean> recoveryVideo(@PathVariable long av) {
+		return ResponseEntity.ok(videoService.recoveryVideo(av));
 	}
 
 	@DeleteMapping(value = "/{av}")

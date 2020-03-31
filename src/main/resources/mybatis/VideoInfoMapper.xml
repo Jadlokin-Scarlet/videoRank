@@ -11,4 +11,10 @@
 		set is_delete = #{isDelete,jdbcType=NUMERIC}
 		where av = #{av,jdbcType=NUMERIC}
 	</delete>
+	<select id="selectAll" resultMap="com.touhou.video.rank.mapper.VideoInfoBaseMapper.BaseResultMap">
+		select
+		<include refid="com.touhou.video.rank.mapper.VideoInfoBaseMapper.Base_Column_List" />
+		from video_info
+		where is_delete = #{isDelete}
+	</select>
 </mapper>
