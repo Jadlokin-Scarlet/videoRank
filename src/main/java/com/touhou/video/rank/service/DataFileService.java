@@ -2,13 +2,8 @@ package com.touhou.video.rank.service;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,9 +28,10 @@ public class DataFileService {
 
 	public String getDataFile(short issue) {
 		String head = String.join("\t", fields) + "\n";
-		String data = videoService.listVideoTop(issue)
+		String data = videoService.listVideoTop100(issue)
 				.map(videoService::getAndSetHisRank)
 				.map(videoService::getAndSetIsLen)
+				.map(videoService::changeToShortPubTime)
 				.map(BeanMap::new)
 				.map(beanMap -> fields.stream()
 						.map(beanMap::get)

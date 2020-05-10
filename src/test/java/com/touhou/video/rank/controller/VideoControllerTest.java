@@ -27,7 +27,7 @@ public class VideoControllerTest {
 
 	@Test
 	public void list() {
-		ResponseEntity<List<Video>> videoListEntity = videoController.list((short)1);
+		ResponseEntity<List<Video>> videoListEntity = videoController.listTop30((short)1);
 		List<Video> videoList = videoListEntity.getBody();
 		System.out.println(videoList);
 	}

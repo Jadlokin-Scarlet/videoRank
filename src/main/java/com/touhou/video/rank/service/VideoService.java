@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 @Service
@@ -29,9 +30,6 @@ public class VideoService {
 				.copyProperties(videoInfo)
 				.setTags(tags);
 	}
-	private Video getVideoByVideoInfo(VideoInfo videoInfo) {
-		return new Video(videoInfo);
-	}
 
 	public Video getVideoByAv(long av, short issue){
 		VideoData videoData = videoDataService.getVideoDataByAv(av, issue);
@@ -42,18 +40,22 @@ public class VideoService {
 		return getVideoByAv(av, issue).getRank();
 	}
 
-	public Stream<Video> listVideoTop(Short issue) {
+	public Stream<Video> listVideoTop30(Short issue) {
 		return listVideo(issue, 30);
 	}
 
-	public Stream<Video> listVideo(Short issue, int limit) {
-		return videoDataService.selectAll(issue, limit)
-				.map(this::getVideoByVideoData);
+	public Stream<Video> listVideoTop100(Short issue) {
+		return listVideo(issue, 100);
 	}
 
-	public Stream<Video> listVideoThatDeleted() {
-		return videoInfoService.listVideoInfoThatDeleted()
-				.map(this::getVideoByVideoInfo);
+	public Stream<Video> listVideo(Short issue, int limit) {
+		return listVideo(issue, limit, "all");
+	}
+
+	public Stream<Video> listVideo(Short issue, int limit, String type) {
+		return videoDataService.selectAll(issue, limit, type)
+				.map(this::getVideoByVideoData);
+
 	}
 
 	public Boolean deleteVideo(long av) {
@@ -77,5 +79,14 @@ public class VideoService {
 
 	public Boolean recoveryVideo(long av) {
 		return videoInfoService.recoveryVideoByPrimaryKey(av);
+	}
+
+	public Short getNewIssue() {
+		return videoDataService.getNewIssue();
+	}
+
+	public Video changeToShortPubTime(Video video) {
+		String shortPubTime = video.getPubTime().split(" ")[0];
+		return video.setPubTime(shortPubTime);
 	}
 }

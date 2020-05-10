@@ -1,6 +1,5 @@
 package com.touhou.video.rank.mapper;
 
-import com.touhou.video.rank.entity.Video;
 import com.touhou.video.rank.entity.VideoInfo;
 import org.springframework.stereotype.Component;
 
@@ -13,4 +12,6 @@ public interface VideoInfoMapper extends VideoInfoBaseMapper{
 	int updateIsDeleteByPrimaryKey(long av, boolean isDelete);
 
 	List<VideoInfo> selectAll(boolean isDelete);
+
+	List<VideoInfo> listVideoInfoRandom(String type, int number);
 }

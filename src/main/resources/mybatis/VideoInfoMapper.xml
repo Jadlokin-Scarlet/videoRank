@@ -17,4 +17,12 @@
 		from video_info
 		where is_delete = #{isDelete}
 	</select>
+	<select id="listVideoInfoRandom" resultMap="com.touhou.video.rank.mapper.VideoInfoBaseMapper.BaseResultMap">
+		select top ${number}
+		<include refid="com.touhou.video.rank.mapper.VideoInfoBaseMapper.Base_Column_List" />
+		from video_info
+		where is_delete = 0
+			and (type = #{type} or #{type} = 'all')
+		order by newid()
+	</select>
 </mapper>

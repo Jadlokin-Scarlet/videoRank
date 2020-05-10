@@ -4,9 +4,15 @@
   <select id="selectAll" resultMap="com.touhou.video.rank.mapper.VideoDataBaseMapper.BaseResultMap">
     select top ${limit}
     <include refid="com.touhou.video.rank.mapper.VideoDataBaseMapper.Base_Column_List" />
-    from video_data inner join (select av as info_av, is_delete from video_info) info on video_data.av = info.info_av
+    from video_data
+      inner join (select av as info_av, type, is_delete from video_info) info on video_data.av = info.info_av
+    inner join (select av as tag_av from touhouTag) tag on video_data.av = tag.tag_av
     where issue = #{issue,jdbcType=NUMERIC}
-    and info.is_delete = 0
+      and info.is_delete = 0
+      and (info.type = #{type} or #{type} = 'all')
     order by point desc
+  </select>
+  <select id="getNewIssue" resultType="java.lang.Short">
+    select max(issue) from video_data
   </select>
 </mapper>

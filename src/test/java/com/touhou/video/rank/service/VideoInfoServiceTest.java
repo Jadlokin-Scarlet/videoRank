@@ -2,6 +2,7 @@ package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.StartApplication;
 import com.touhou.video.rank.entity.VideoInfo;
+import com.touhou.video.rank.mapper.VideoInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +21,15 @@ public class VideoInfoServiceTest {
 
 	@Autowired
 	private VideoInfoService videoInfoService;
+	@Autowired
+	private VideoInfoMapper videoInfoMapper;
 
 
 	@Test
 	public void selectByPrimaryKey() {
-		VideoInfo videoInfo = videoInfoService.selectByPrimaryKey(89314138L);
-		System.out.println(videoInfo);
+		VideoInfo videoInfo1 = videoInfoMapper.selectByPrimaryKey(967999675L);
+		VideoInfo videoInfo2 = videoInfoService.selectByPrimaryKey(967999675L);
+		System.out.println(videoInfo1);
+		System.out.println(videoInfo2);
 	}
 }

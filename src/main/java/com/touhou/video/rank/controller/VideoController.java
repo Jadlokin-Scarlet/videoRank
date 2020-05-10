@@ -26,33 +26,39 @@ public class VideoController {
 	}
 
 	@GetMapping(value = "/issue/{issue}",produces = "application/json")
-	public ResponseEntity<List<Video>> list(@PathVariable Short issue) {
-		List<Video> videoList = videoService.listVideoTop(issue)
+	public ResponseEntity<List<Video>> listTop30(@PathVariable Short issue) {
+		List<Video> videoList = videoService.listVideoTop30(issue)
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(videoList);
 	}
 
-	@GetMapping(value = "/deleted")
-	public ResponseEntity<List<Video>> listVideoThatDeleted() {
-		List<Video> videoList = videoService.listVideoThatDeleted()
+	@GetMapping(value = "/issue/{issue}/top/{top}")
+	public ResponseEntity<List<Video>> listTop(
+			@PathVariable Short issue,
+			@PathVariable int top) {
+		List<Video> videoList = videoService.listVideo(issue, top)
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(videoList);
 	}
 
-	@PostMapping(value = "/deleted/{av}")
-	public ResponseEntity<Boolean> recoveryVideo(@PathVariable long av) {
-		return ResponseEntity.ok(videoService.recoveryVideo(av));
+	@GetMapping(value = "/issue/{issue}/top/{top}/type/{type}")
+	public ResponseEntity<List<Video>> listTop(
+			@PathVariable Short issue,
+			@PathVariable int top,
+			@PathVariable String type) {
+		List<Video> videoList = videoService.listVideo(issue, top, type)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(videoList);
+	}
+
+	@GetMapping(value = "/issue")
+	public ResponseEntity<Short> getNewIssue() {
+		return ResponseEntity.ok(videoService.getNewIssue());
 	}
 
 	@DeleteMapping(value = "/{av}")
 	public ResponseEntity<Boolean> delete(@PathVariable long av) {
 		return ResponseEntity.ok(videoService.deleteVideo(av));
 	}
-
-	@PatchMapping(value = "/{av}/startTime/{startTime}")
-	public ResponseEntity<Boolean> updateStartTime(@PathVariable long av, @PathVariable int startTime){
-		return ResponseEntity.ok(videoService.updateStartTime(av, startTime));
-	}
-
 
 }

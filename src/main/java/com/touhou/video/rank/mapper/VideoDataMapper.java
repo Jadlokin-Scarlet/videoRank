@@ -8,6 +8,7 @@ import java.util.List;
 @Component
 public interface VideoDataMapper extends VideoDataBaseMapper{
 
-	List<VideoData> selectAll(Short issue, int limit);
+	List<VideoData> selectAll(Short issue, int limit, String type);
 
+	Short getNewIssue();
 }

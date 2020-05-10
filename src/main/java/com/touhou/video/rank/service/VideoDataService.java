@@ -38,7 +38,11 @@ public class VideoDataService {
 		return new VideoData().setAv(av).setIssue(issue);
 	}
 
-	public Stream<VideoData> selectAll(Short issue, int limit) {
-		return videoDataMapper.selectAll(issue, limit).stream();
+	public Stream<VideoData> selectAll(Short issue, int limit, String type) {
+		return videoDataMapper.selectAll(issue, limit, type).stream();
+	}
+
+	public Short getNewIssue() {
+		return videoDataMapper.getNewIssue();
 	}
 }

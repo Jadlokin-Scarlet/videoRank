@@ -24,10 +24,10 @@ public class VideoInfoService {
 		this.videoInfoMapper = videoInfoMapper;
 	}
 
-	@Cacheable(cacheNames = "videoInfo", key = "#av")
+	@Cacheable(cacheNames = "videoInfo")
 	public VideoInfo selectByPrimaryKey(Long av) {
-		VideoInfo videoInfo = videoInfoMapper.selectByPrimaryKey(av);
-		return changeDateFormat(videoInfo);
+		return videoInfoMapper.selectByPrimaryKey(av);
+//		return changeDateFormat(videoInfo);
 	}
 
 	public Stream<VideoInfo> listVideoInfoThatDeleted() {
@@ -35,8 +35,12 @@ public class VideoInfoService {
 	}
 
 	private Stream<VideoInfo> listVideoInfo(boolean isDelete) {
-		return videoInfoMapper.selectAll(isDelete).stream()
-				.map(this::changeDateFormat);
+		return videoInfoMapper.selectAll(isDelete).stream();
+				//.map(this::changeDateFormat);
+	}
+
+	public Stream<VideoInfo> listVideoInfoRandom(String type, int number) {
+		return videoInfoMapper.listVideoInfoRandom(type, number).stream();
 	}
 
 	private VideoInfo changeDateFormat(VideoInfo videoInfo) {
@@ -56,4 +60,5 @@ public class VideoInfoService {
 	public Boolean recoveryVideoByPrimaryKey(long av) {
 		return videoInfoMapper.updateIsDeleteByPrimaryKey(av, false) == 1;
 	}
+
 }
