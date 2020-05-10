@@ -6,3 +6,4 @@ bilibili东方tag视频信息管理系统的后端
 
 技术栈是ssm, 使用了redis, mybatis generator和自己写的插件
 
+http://47.100.66.36:3000/#/
