@@ -18,10 +18,12 @@ import java.util.stream.Stream;
 @Service
 public class VideoInfoService {
 	private VideoInfoMapper videoInfoMapper;
+	private TypeService typeService;
 
 	@Autowired
-	public VideoInfoService(VideoInfoMapper videoInfoMapper) {
+	public VideoInfoService(VideoInfoMapper videoInfoMapper, TypeService typeService) {
 		this.videoInfoMapper = videoInfoMapper;
+		this.typeService = typeService;
 	}
 
 	@Cacheable(cacheNames = "videoInfo")
@@ -40,7 +42,7 @@ public class VideoInfoService {
 	}
 
 	public Stream<VideoInfo> listVideoInfoRandom(String type, int number) {
-		return videoInfoMapper.listVideoInfoRandom(type, number).stream();
+		return videoInfoMapper.listVideoInfoRandom(typeService.listByFatherType(type), number).stream();
 	}
 
 	private VideoInfo changeDateFormat(VideoInfo videoInfo) {
@@ -61,4 +63,7 @@ public class VideoInfoService {
 		return videoInfoMapper.updateIsDeleteByPrimaryKey(av, false) == 1;
 	}
 
+	public Boolean deleteVideo(long av) {
+		return videoInfoMapper.deleteByPrimaryKey(av) == 1;
+	}
 }

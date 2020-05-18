@@ -22,7 +22,9 @@
 		<include refid="com.touhou.video.rank.mapper.VideoInfoBaseMapper.Base_Column_List" />
 		from video_info
 		where is_delete = 0
-			and (type = #{type} or #{type} = 'all')
+			and type in <foreach collection="typeList" item="type" open="(" close=")" separator=",">
+				#{type.name}
+			</foreach>
 		order by newid()
 	</select>
 </mapper>

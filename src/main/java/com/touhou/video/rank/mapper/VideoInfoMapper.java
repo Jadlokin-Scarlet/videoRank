@@ -1,6 +1,8 @@
 package com.touhou.video.rank.mapper;
 
+import com.touhou.video.rank.entity.Type;
 import com.touhou.video.rank.entity.VideoInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,5 +15,7 @@ public interface VideoInfoMapper extends VideoInfoBaseMapper{
 
 	List<VideoInfo> selectAll(boolean isDelete);
 
-	List<VideoInfo> listVideoInfoRandom(String type, int number);
+	List<VideoInfo> listVideoInfoRandom(
+			@Param("typeList") List<Type> typeList,
+			int number);
 }

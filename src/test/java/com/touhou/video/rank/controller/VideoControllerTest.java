@@ -4,6 +4,7 @@ import com.touhou.video.rank.StartApplication;
 import com.touhou.video.rank.entity.Video;
 import com.touhou.video.rank.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,15 @@ public class VideoControllerTest {
 
 	@Test
 	public void list() {
-		ResponseEntity<List<Video>> videoListEntity = videoController.listTop30((short)1);
+		ResponseEntity<List<Video>> videoListEntity = videoController.listTop30((short)10);
 		List<Video> videoList = videoListEntity.getBody();
+		Assert.assertTrue(!videoList.isEmpty());
 		System.out.println(videoList);
+	}
+
+	public void delete() {
+		Boolean isSuccess = videoController.delete(30270995L).getBody();
+		Assert.assertTrue(isSuccess);
+		System.out.println(isSuccess);
 	}
 }

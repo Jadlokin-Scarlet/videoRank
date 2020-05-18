@@ -51,14 +51,29 @@ public class VideoController {
 		return ResponseEntity.ok(videoList);
 	}
 
+	@GetMapping(value = "/issue/{issue}/type/{type}")
+	public ResponseEntity<List<Video>> search(
+			@PathVariable Short issue,
+			@PathVariable String type,
+			@RequestParam int top,
+			@RequestParam String searchKey,
+			@RequestParam String sortKey) {
+		List<Video> videoList = videoService.search(issue, top, type, searchKey, sortKey);
+		return ResponseEntity.ok(videoList);
+	}
+
 	@GetMapping(value = "/issue")
 	public ResponseEntity<Short> getNewIssue() {
 		return ResponseEntity.ok(videoService.getNewIssue());
+	}
+
+	@DeleteMapping(value = "/{av}/isDelete/true")
+	public ResponseEntity<Boolean> falseDelete(@PathVariable long av) {
+		return ResponseEntity.ok(videoService.falseDeleteVideo(av));
 	}
 
 	@DeleteMapping(value = "/{av}")
 	public ResponseEntity<Boolean> delete(@PathVariable long av) {
 		return ResponseEntity.ok(videoService.deleteVideo(av));
 	}
-
 }

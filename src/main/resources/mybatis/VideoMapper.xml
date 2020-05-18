@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoMapper">
+	<select id="list" resultType="com.touhou.video.rank.entity.Video">
+		select top ${top} *
+		from video_data
+			inner join video_info on video_data.av = video_info.av
+			inner join touhouTag on video_data.av = touhouTag.av
+		where video_data.issue = #{issue,jdbcType=NUMERIC}
+			and video_info.is_delete = 0
+			and video_info.type in <foreach collection="typeList" item="type" open="(" close=")" separator=",">
+				#{type.name}
+			</foreach>
+			and video_info.name like ('%' + #{searchKey} + '%')
+		order by [${sortKey}] desc
+	</select>
+</mapper>

@@ -1,8 +1,9 @@
 package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.StartApplication;
-import com.touhou.video.rank.entity.Video;
+import com.touhou.video.rank.entity.Type;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +18,21 @@ import static org.junit.Assert.*;
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StartApplication.class)
-@WebAppConfiguration
-public class VideoServiceTest {
+public class TypeServiceTest {
 
 	@Autowired
-	public VideoService videoService;
-	@Autowired
-	TypeService typeService;
+	private TypeService typeService;
 
 	@Test
-	public void search() {
-		List<Video> videoList = videoService.search(
-				(short) 11,
-				10,
-				typeService.getFirstType(),
-				"东方推荐刊",
-				"point");
-		assertTrue(!videoList.isEmpty());
+	public void listByFatherType() {
+		List<Type> list = typeService.listByFatherType(typeService.getFirstType().getName());
+		Assert.assertTrue(!list.isEmpty());
+		log.info(list.toString());
+	}
+
+	@Test
+	public void getFirstType() {
+		Type firstType = typeService.getFirstType();
+		System.out.println(firstType);
 	}
 }

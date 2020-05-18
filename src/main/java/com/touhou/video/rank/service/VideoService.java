@@ -1,10 +1,13 @@
 package com.touhou.video.rank.service;
 
+import com.touhou.video.rank.entity.Type;
 import com.touhou.video.rank.entity.Video;
 import com.touhou.video.rank.entity.VideoData;
 import com.touhou.video.rank.entity.VideoInfo;
+import com.touhou.video.rank.mapper.VideoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.DoubleStream;
@@ -15,12 +18,16 @@ public class VideoService {
 	private VideoDataService videoDataService;
 	private VideoInfoService videoInfoService;
 	private VideoTagService videoTagService;
+	private TypeService typeService;
+	private VideoMapper videoMapper;
 
 	@Autowired
-	public VideoService(VideoDataService videoDataService, VideoInfoService videoInfoService, VideoTagService videoTagService) {
+	public VideoService(VideoDataService videoDataService, VideoInfoService videoInfoService, VideoTagService videoTagService, TypeService typeService, VideoMapper videoMapper) {
 		this.videoDataService = videoDataService;
 		this.videoInfoService = videoInfoService;
 		this.videoTagService = videoTagService;
+		this.typeService = typeService;
+		this.videoMapper = videoMapper;
 	}
 
 	private Video getVideoByVideoData(VideoData videoData) {
@@ -49,7 +56,8 @@ public class VideoService {
 	}
 
 	public Stream<Video> listVideo(Short issue, int limit) {
-		return listVideo(issue, limit, "all");
+		Type allType = typeService.getFirstType();
+		return listVideo(issue, limit, allType.getName());
 	}
 
 	public Stream<Video> listVideo(Short issue, int limit, String type) {
@@ -58,7 +66,20 @@ public class VideoService {
 
 	}
 
-	public Boolean deleteVideo(long av) {
+	public List<Video> search(Short issue, int top, List<Type> typeList, String searchKey, String sortKey) {
+		return videoMapper.list(issue, top, typeList, searchKey, sortKey);
+	}
+
+	public List<Video> search(Short issue, int top, String type, String searchKey, String sortKey) {
+		List<Type> typeList = typeService.listByFatherType(type);
+		return search(issue, top, typeList, searchKey, sortKey);
+	}
+
+	public List<Video> search(Short issue, int top, Type type, String searchKey, String sortKey) {
+		return search(issue, top, type.getName(), searchKey, sortKey);
+	}
+
+	public Boolean falseDeleteVideo(long av) {
 		return videoInfoService.falseDeleteVideoByPrimaryKey(av);
 	}
 
@@ -85,8 +106,19 @@ public class VideoService {
 		return videoDataService.getNewIssue();
 	}
 
-	public Video changeToShortPubTime(Video video) {
+	Video changeToShortPubTime(Video video) {
 		String shortPubTime = video.getPubTime().split(" ")[0];
 		return video.setPubTime(shortPubTime);
+	}
+
+	@Transactional
+	public Boolean deleteVideo(long av) {
+		if (!videoInfoService.selectByPrimaryKey(av).getIsDelete()) {
+			return false;
+		}
+		boolean result;
+		result = videoInfoService.deleteVideo(av);
+		result &= videoDataService.deleteVideo(av);
+		return result;
 	}
 }

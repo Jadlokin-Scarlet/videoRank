@@ -1,8 +1,9 @@
 package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.StartApplication;
-import com.touhou.video.rank.entity.Video;
+import com.touhou.video.rank.entity.VideoData;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -18,21 +20,17 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StartApplication.class)
 @WebAppConfiguration
-public class VideoServiceTest {
+public class VideoDataServiceTest {
 
 	@Autowired
-	public VideoService videoService;
+	private VideoDataService videoDataService;
 	@Autowired
-	TypeService typeService;
+	private TypeService typeService;
 
 	@Test
-	public void search() {
-		List<Video> videoList = videoService.search(
-				(short) 11,
-				10,
-				typeService.getFirstType(),
-				"东方推荐刊",
-				"point");
-		assertTrue(!videoList.isEmpty());
+	public void selectAll() {
+		List<VideoData> list = videoDataService.selectAll((short) 10, 100, typeService.getFirstType().getName())
+				.collect(Collectors.toList());
+		Assert.assertTrue(!list.isEmpty());
 	}
 }

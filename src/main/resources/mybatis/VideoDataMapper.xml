@@ -9,10 +9,16 @@
     inner join (select av as tag_av from touhouTag) tag on video_data.av = tag.tag_av
     where issue = #{issue,jdbcType=NUMERIC}
       and info.is_delete = 0
-      and (info.type = #{type} or #{type} = 'all')
+      and type in <foreach collection="typeList" item="type" open="(" close=")" separator=",">
+        #{type.name}
+      </foreach>
     order by point desc
   </select>
   <select id="getNewIssue" resultType="java.lang.Short">
     select max(issue) from video_data
   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from video_data
+    where av = #{av,jdbcType=NUMERIC}
+  </delete>
 </mapper>
