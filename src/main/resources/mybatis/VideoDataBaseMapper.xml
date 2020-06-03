@@ -11,9 +11,15 @@
     <result column="page" jdbcType="NUMERIC" property="page" />
     <result column="point" jdbcType="NUMERIC" property="point" />
     <result column="rank" jdbcType="NUMERIC" property="rank" />
+    <result column="danmaku" jdbcType="NUMERIC" property="danmaku" />
+    <result column="share" jdbcType="NUMERIC" property="share" />
+    <result column="like" jdbcType="NUMERIC" property="like" />
+    <result column="dislike" jdbcType="NUMERIC" property="dislike" />
+    <result column="evaluation" jdbcType="VARCHAR" property="evaluation" />
   </resultMap>
   <sql id="Base_Column_List">
-    av, issue, [view], reply, favorite, coin, page, point, [rank]
+    av, issue, [view], reply, favorite, coin, page, point, [rank], danmaku, [share], 
+    [like], dislike, evaluation
   </sql>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select 
@@ -30,10 +36,14 @@
   <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoData" useGeneratedKeys="true">
     insert into video_data (av, issue, [view], 
       reply, favorite, coin, 
-      page, point, [rank])
+      page, point, [rank], 
+      danmaku, [share], [like], 
+      dislike, evaluation)
     values (#{av,jdbcType=NUMERIC}, #{issue,jdbcType=NUMERIC}, #{view,jdbcType=NUMERIC}, 
       #{reply,jdbcType=NUMERIC}, #{favorite,jdbcType=NUMERIC}, #{coin,jdbcType=NUMERIC}, 
-      #{page,jdbcType=NUMERIC}, #{point,jdbcType=NUMERIC}, #{rank,jdbcType=NUMERIC})
+      #{page,jdbcType=NUMERIC}, #{point,jdbcType=NUMERIC}, #{rank,jdbcType=NUMERIC}, 
+      #{danmaku,jdbcType=NUMERIC}, #{share,jdbcType=NUMERIC}, #{like,jdbcType=NUMERIC}, 
+      #{dislike,jdbcType=NUMERIC}, #{evaluation,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoData" useGeneratedKeys="true">
     insert into video_data
@@ -65,6 +75,21 @@
       <if test="rank != null">
         [rank],
       </if>
+      <if test="danmaku != null">
+        danmaku,
+      </if>
+      <if test="share != null">
+        [share],
+      </if>
+      <if test="like != null">
+        [like],
+      </if>
+      <if test="dislike != null">
+        dislike,
+      </if>
+      <if test="evaluation != null">
+        evaluation,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="av != null">
@@ -94,6 +119,21 @@
       <if test="rank != null">
         #{rank,jdbcType=NUMERIC},
       </if>
+      <if test="danmaku != null">
+        #{danmaku,jdbcType=NUMERIC},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=NUMERIC},
+      </if>
+      <if test="like != null">
+        #{like,jdbcType=NUMERIC},
+      </if>
+      <if test="dislike != null">
+        #{dislike,jdbcType=NUMERIC},
+      </if>
+      <if test="evaluation != null">
+        #{evaluation,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.touhou.video.rank.entity.VideoData">
@@ -120,6 +160,21 @@
       <if test="rank != null">
         [rank] = #{rank,jdbcType=NUMERIC},
       </if>
+      <if test="danmaku != null">
+        danmaku = #{danmaku,jdbcType=NUMERIC},
+      </if>
+      <if test="share != null">
+        [share] = #{share,jdbcType=NUMERIC},
+      </if>
+      <if test="like != null">
+        [like] = #{like,jdbcType=NUMERIC},
+      </if>
+      <if test="dislike != null">
+        dislike = #{dislike,jdbcType=NUMERIC},
+      </if>
+      <if test="evaluation != null">
+        evaluation = #{evaluation,jdbcType=VARCHAR},
+      </if>
     </set>
     where av = #{av,jdbcType=NUMERIC}
       and issue = #{issue,jdbcType=NUMERIC}
@@ -132,7 +187,12 @@
       coin = #{coin,jdbcType=NUMERIC},
       page = #{page,jdbcType=NUMERIC},
       point = #{point,jdbcType=NUMERIC},
-      [rank] = #{rank,jdbcType=NUMERIC}
+      [rank] = #{rank,jdbcType=NUMERIC},
+      danmaku = #{danmaku,jdbcType=NUMERIC},
+      [share] = #{share,jdbcType=NUMERIC},
+      [like] = #{like,jdbcType=NUMERIC},
+      dislike = #{dislike,jdbcType=NUMERIC},
+      evaluation = #{evaluation,jdbcType=VARCHAR}
     where av = #{av,jdbcType=NUMERIC}
       and issue = #{issue,jdbcType=NUMERIC}
   </update>

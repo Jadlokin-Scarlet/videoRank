@@ -25,7 +25,8 @@ public class TypeServiceTest {
 
 	@Test
 	public void listByFatherType() {
-		List<Type> list = typeService.listByFatherType(typeService.getFirstType().getName());
+		Type all = typeService.getFirstType();
+		List<Type> list = typeService.listByFatherType(all);
 		Assert.assertTrue(!list.isEmpty());
 		log.info(list.toString());
 	}
@@ -35,4 +36,5 @@ public class TypeServiceTest {
 		Type firstType = typeService.getFirstType();
 		System.out.println(firstType);
 	}
+
 }

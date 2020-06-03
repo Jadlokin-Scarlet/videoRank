@@ -12,9 +12,16 @@
     <result column="start_time" jdbcType="NUMERIC" property="startTime" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="bv" jdbcType="NVARCHAR" property="bv" />
+    <result column="description" jdbcType="NVARCHAR" property="description" />
+    <result column="state" jdbcType="NUMERIC" property="state" />
+    <result column="attribute" jdbcType="NUMERIC" property="attribute" />
+    <result column="duration" jdbcType="NUMERIC" property="duration" />
+    <result column="mission_id" jdbcType="NUMERIC" property="missionId" />
+    <result column="dynamic" jdbcType="NVARCHAR" property="dynamic" />
   </resultMap>
   <sql id="Base_Column_List">
-    av, [name], img, [type], [owner], copyright, pub_time, start_time, is_delete, bv
+    av, [name], img, [type], [owner], copyright, pub_time, start_time, is_delete, bv, 
+    description, [state], [attribute], duration, mission_id, [dynamic]
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -30,11 +37,15 @@
     insert into video_info (av, [name], img, 
       [type], [owner], copyright, 
       pub_time, start_time, is_delete, 
-      bv)
+      bv, description, [state], 
+      [attribute], duration, mission_id, 
+      [dynamic])
     values (#{av,jdbcType=NUMERIC}, #{name,jdbcType=NVARCHAR}, #{img,jdbcType=NVARCHAR}, 
       #{type,jdbcType=NVARCHAR}, #{owner,jdbcType=NVARCHAR}, #{copyright,jdbcType=BIT}, 
       #{pubTime,jdbcType=NVARCHAR}, #{startTime,jdbcType=NUMERIC}, #{isDelete,jdbcType=BIT}, 
-      #{bv,jdbcType=NVARCHAR})
+      #{bv,jdbcType=NVARCHAR}, #{description,jdbcType=NVARCHAR}, #{state,jdbcType=NUMERIC}, 
+      #{attribute,jdbcType=NUMERIC}, #{duration,jdbcType=NUMERIC}, #{missionId,jdbcType=NUMERIC}, 
+      #{dynamic,jdbcType=NVARCHAR})
   </insert>
   <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
     insert into video_info
@@ -69,6 +80,24 @@
       <if test="bv != null">
         bv,
       </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="state != null">
+        [state],
+      </if>
+      <if test="attribute != null">
+        [attribute],
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="missionId != null">
+        mission_id,
+      </if>
+      <if test="dynamic != null">
+        [dynamic],
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="av != null">
@@ -100,6 +129,24 @@
       </if>
       <if test="bv != null">
         #{bv,jdbcType=NVARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=NUMERIC},
+      </if>
+      <if test="attribute != null">
+        #{attribute,jdbcType=NUMERIC},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="missionId != null">
+        #{missionId,jdbcType=NUMERIC},
+      </if>
+      <if test="dynamic != null">
+        #{dynamic,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,6 +180,24 @@
       <if test="bv != null">
         bv = #{bv,jdbcType=NVARCHAR},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="state != null">
+        [state] = #{state,jdbcType=NUMERIC},
+      </if>
+      <if test="attribute != null">
+        [attribute] = #{attribute,jdbcType=NUMERIC},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="missionId != null">
+        mission_id = #{missionId,jdbcType=NUMERIC},
+      </if>
+      <if test="dynamic != null">
+        [dynamic] = #{dynamic,jdbcType=NVARCHAR},
+      </if>
     </set>
     where av = #{av,jdbcType=NUMERIC}
   </update>
@@ -146,7 +211,13 @@
       pub_time = #{pubTime,jdbcType=NVARCHAR},
       start_time = #{startTime,jdbcType=NUMERIC},
       is_delete = #{isDelete,jdbcType=BIT},
-      bv = #{bv,jdbcType=NVARCHAR}
+      bv = #{bv,jdbcType=NVARCHAR},
+      description = #{description,jdbcType=NVARCHAR},
+      [state] = #{state,jdbcType=NUMERIC},
+      [attribute] = #{attribute,jdbcType=NUMERIC},
+      duration = #{duration,jdbcType=NUMERIC},
+      mission_id = #{missionId,jdbcType=NUMERIC},
+      [dynamic] = #{dynamic,jdbcType=NVARCHAR}
     where av = #{av,jdbcType=NUMERIC}
   </update>
 </mapper>

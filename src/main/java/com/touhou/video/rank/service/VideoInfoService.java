@@ -26,7 +26,7 @@ public class VideoInfoService {
 		this.typeService = typeService;
 	}
 
-	@Cacheable(cacheNames = "videoInfo")
+	@Cacheable(cacheNames = "videoInfo", key = "#av")
 	public VideoInfo selectByPrimaryKey(Long av) {
 		return videoInfoMapper.selectByPrimaryKey(av);
 //		return changeDateFormat(videoInfo);
@@ -38,31 +38,27 @@ public class VideoInfoService {
 
 	private Stream<VideoInfo> listVideoInfo(boolean isDelete) {
 		return videoInfoMapper.selectAll(isDelete).stream();
-				//.map(this::changeDateFormat);
 	}
 
 	public Stream<VideoInfo> listVideoInfoRandom(String type, int number) {
 		return videoInfoMapper.listVideoInfoRandom(typeService.listByFatherType(type), number).stream();
 	}
 
-	private VideoInfo changeDateFormat(VideoInfo videoInfo) {
-		String pubTime = videoInfo.getPubTime();
-		return videoInfo.setPubTime(pubTime.split(" ")[0]);
-	}
-
-	@CacheEvict(value = "videoInfo", key = "#av")
+	@CacheEvict(cacheNames = "videoInfo", key = "#av")
 	public boolean updateStartTimeByPrimaryKey(long av, int startTime) {
 		return videoInfoMapper.updateStartTimeByPrimaryKey(av, startTime) == 1;
 	}
-	@CacheEvict(value = "videoInfo", key = "#av")
+	@CacheEvict(cacheNames = "videoInfo", key = "#av")
 	public boolean falseDeleteVideoByPrimaryKey(long av) {
 		return videoInfoMapper.updateIsDeleteByPrimaryKey(av, true) == 1;
 	}
 
+	@CacheEvict(cacheNames = "videoInfo", key = "#av")
 	public Boolean recoveryVideoByPrimaryKey(long av) {
 		return videoInfoMapper.updateIsDeleteByPrimaryKey(av, false) == 1;
 	}
 
+	@CacheEvict(cacheNames = "videoInfo", key = "#av")
 	public Boolean deleteVideo(long av) {
 		return videoInfoMapper.deleteByPrimaryKey(av) == 1;
 	}

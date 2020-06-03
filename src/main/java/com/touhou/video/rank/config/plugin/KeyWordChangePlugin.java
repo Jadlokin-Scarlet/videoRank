@@ -10,7 +10,7 @@ import java.util.List;
 @Slf4j
 public class KeyWordChangePlugin extends PluginAdapter {
 
-	private final List<String> keyWords = Arrays.asList("view");
+	private final List<String> keyWords = Arrays.asList("view", "right");
 
 	@Override
 	public boolean validate(List<String> warnings) {

@@ -29,8 +29,10 @@ public class VideoDataServiceTest {
 
 	@Test
 	public void selectAll() {
-		List<VideoData> list = videoDataService.selectAll((short) 10, 100, typeService.getFirstType().getName())
+		List<VideoData> list =
+				videoDataService.selectAll((short) 11, 10, "单机游戏")
 				.collect(Collectors.toList());
 		Assert.assertTrue(!list.isEmpty());
+		log.info(list.toString());
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class VideoInfoServiceTest {
 
 	@Test
 	public void selectByPrimaryKey() {
-		VideoInfo videoInfo2 = videoInfoService.selectByPrimaryKey(967999675L);
+		VideoInfo videoInfo2 = videoInfoService.selectByPrimaryKey(795709380L);
 		assertNotNull(videoInfo2);
 		System.out.println(videoInfo2);
 	}
@@ -42,5 +43,12 @@ public class VideoInfoServiceTest {
 		List<VideoInfo> infos = videoInfoService.listVideoInfoRandom("游戏", 10)
 				.collect(Collectors.toList());
 		Assert.assertTrue(!infos.isEmpty());
+	}
+
+	@Test
+	@Transactional
+	public void falseDelete() {
+		boolean isDelete = videoInfoService.falseDeleteVideoByPrimaryKey(795709380L);
+		assertTrue(isDelete);
 	}
 }

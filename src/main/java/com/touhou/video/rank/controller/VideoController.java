@@ -25,39 +25,20 @@ public class VideoController {
 		this.videoService = videoService;
 	}
 
-	@GetMapping(value = "/issue/{issue}",produces = "application/json")
-	public ResponseEntity<List<Video>> listTop30(@PathVariable Short issue) {
-		List<Video> videoList = videoService.listVideoTop30(issue)
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(videoList);
+	@GetMapping("/issue/{issue}/av/{av}")
+	public ResponseEntity<Video> getByAv(@PathVariable long av, @PathVariable short issue) {
+		Video video = videoService.getVideoByAv(av, issue);
+		return ResponseEntity.ok(video);
 	}
 
-	@GetMapping(value = "/issue/{issue}/top/{top}")
-	public ResponseEntity<List<Video>> listTop(
-			@PathVariable Short issue,
-			@PathVariable int top) {
-		List<Video> videoList = videoService.listVideo(issue, top)
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(videoList);
-	}
-
-	@GetMapping(value = "/issue/{issue}/top/{top}/type/{type}")
-	public ResponseEntity<List<Video>> listTop(
-			@PathVariable Short issue,
-			@PathVariable int top,
-			@PathVariable String type) {
-		List<Video> videoList = videoService.listVideo(issue, top, type)
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(videoList);
-	}
-
-	@GetMapping(value = "/issue/{issue}/type/{type}")
+	@GetMapping(value = "/issue/{issue}")
 	public ResponseEntity<List<Video>> search(
-			@PathVariable Short issue,
-			@PathVariable String type,
-			@RequestParam int top,
-			@RequestParam String searchKey,
-			@RequestParam String sortKey) {
+			@PathVariable short issue,
+			@RequestParam(required = false, defaultValue = "全部") String type,
+			@RequestParam(required = false, defaultValue = "30") int top,
+			@RequestParam(required = false, defaultValue = "") String searchKey,
+			@RequestParam(required = false, defaultValue = "point") String sortKey,
+			@RequestParam(required = false, defaultValue = "false") boolean isDelete) {
 		List<Video> videoList = videoService.search(issue, top, type, searchKey, sortKey);
 		return ResponseEntity.ok(videoList);
 	}

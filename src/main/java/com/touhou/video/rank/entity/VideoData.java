@@ -25,5 +25,15 @@ public class VideoData implements Serializable {
 
     private Long rank;
 
+    private Long danmaku;
+
+    private Long share;
+
+    private Long like;
+
+    private Long dislike;
+
+    private String evaluation;
+
     private static final long serialVersionUID = 1L;
 }
