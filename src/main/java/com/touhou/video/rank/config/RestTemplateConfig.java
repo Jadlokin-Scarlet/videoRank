@@ -31,8 +31,9 @@ import java.util.stream.Collectors;
 public class RestTemplateConfig extends CachingConfigurerSupport {
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-		RedisCacheConfiguration redisCacheConfiguration=RedisCacheConfiguration.defaultCacheConfig()
-				.entryTtl(Duration.ofDays(1));
+		RedisCacheConfiguration redisCacheConfiguration=RedisCacheConfiguration.defaultCacheConfig();
+//				.entryTtl(Duration.ofDays(1)
+//				);
 		return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
 				.cacheDefaults(redisCacheConfiguration)
 				.build();

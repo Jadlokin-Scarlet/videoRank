@@ -1,7 +1,6 @@
 package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.StartApplication;
-import com.touhou.video.rank.entity.Type;
 import com.touhou.video.rank.entity.Video;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -30,18 +28,13 @@ public class VideoServiceTest {
 	@Test
 	public void search() {
 		List<Video> videoList = videoService.search(
-				(short) 11,
-				10,
-				typeService.getFirstType(),
-				"东方推荐刊",
+				videoService.getNewIssue(),
+				30,
+				typeService.getTypeByName("动画"),
+				"",
 				"point");
 		assertTrue(!videoList.isEmpty());
 		log.info(videoList.toString());
 	}
 
-	@Test
-	public void cacheTest() {
-		List<Video> s = videoService.cacheTest(Arrays.asList(new Video().setName("kksk")));
-		log.info(s.toString());
-	}
 }

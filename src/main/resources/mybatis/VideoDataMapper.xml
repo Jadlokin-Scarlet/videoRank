@@ -15,7 +15,8 @@
     order by point desc
   </select>
   <select id="getNewIssue" resultType="java.lang.Short">
-    select max(issue) from video_data
+    select max(issue)
+    from (select top 100 issue from video_data) issues
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from video_data

@@ -19,4 +19,11 @@ public interface VideoMapper {
 			@Param("sortKey") String sortKey
 	);
 
+	List<Video> searchAllType(
+			@Param("issue") short issue,
+			@Param("top") int top,
+			@Param("searchKey") String searchKey,
+			@Param("sortKey") String sortKey
+	);
+
 }

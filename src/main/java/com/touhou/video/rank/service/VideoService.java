@@ -4,34 +4,36 @@ import com.touhou.video.rank.entity.*;
 import com.touhou.video.rank.mapper.OwnerMapper;
 import com.touhou.video.rank.mapper.VideoMapper;
 import com.touhou.video.rank.mapper.VideoPageMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+@Slf4j
 @Service
 public class VideoService {
 	private VideoDataService videoDataService;
 	private VideoInfoService videoInfoService;
 	private VideoTagService videoTagService;
 	private TypeService typeService;
-	private OwnerMapper ownerMapper;
-	private VideoPageMapper videoPageMapper;
+	private VideoPageService videoPageService;
+	private OwnerService ownerService;
 	private VideoMapper videoMapper;
 
 	@Autowired
-	public VideoService(VideoDataService videoDataService, VideoInfoService videoInfoService, VideoTagService videoTagService, TypeService typeService, OwnerMapper ownerMapper, VideoPageMapper videoPageMapper, VideoMapper videoMapper) {
+	public VideoService(VideoDataService videoDataService, VideoInfoService videoInfoService, VideoTagService videoTagService, TypeService typeService, VideoPageService videoPageService, OwnerService ownerService, VideoMapper videoMapper) {
 		this.videoDataService = videoDataService;
 		this.videoInfoService = videoInfoService;
 		this.videoTagService = videoTagService;
 		this.typeService = typeService;
-		this.ownerMapper = ownerMapper;
-		this.videoPageMapper = videoPageMapper;
+		this.videoPageService = videoPageService;
+		this.ownerService = ownerService;
 		this.videoMapper = videoMapper;
 	}
 
@@ -51,10 +53,10 @@ public class VideoService {
 	public Video getVideoByAv(long av, short issue){
 		VideoData videoData = videoDataService.getVideoDataByAv(av, issue);
 		VideoInfo videoInfo = videoInfoService.selectByPrimaryKey(av);
-		Owner owner = ownerMapper.selectByOwnerName(videoInfo.getName());
+		Owner owner = ownerService.get(videoInfo.getOwner());
 		Video video = new Video(videoData)
-				.copyProperties(videoInfo)
-				.copyProperties(owner);
+				.copyProperties(owner)
+				.copyProperties(videoInfo);
 		video = updatePageList(video);
 		video = updateTagList(video);
 		return video;
@@ -64,48 +66,51 @@ public class VideoService {
 		return videoDataService.getVideoDataByAv(av, issue).getRank();
 	}
 
-	@Cacheable(value = "VideoService")
 	public Stream<Video> listVideoTop100(Short issue) {
-		return search(issue, 100, typeService.ALL, "", "point").stream();
+		return search(issue, 100, typeService.ALL(), "", "point").stream();
 	}
 
-	public List<Video> search(short issue, int top, List<Type> typeList, String searchKey, String sortKey) {
-		return videoMapper.search(issue, top, typeList, searchKey, sortKey)
-				.stream()
+
+	public List<Video> search(Short issue, int top, String typeName, String searchKey, String sortKey) {
+		Type type = typeService.getTypeByName(typeName);
+		return search(issue, top, type, searchKey, sortKey);
+	}
+
+	public List<Video> search(Short issue, int top, Type type, String searchKey, String sortKey) {
+		List<Video> videoList;
+		if (type.equals(typeService.ALL())) {
+			videoList = videoMapper.searchAllType(issue, top, searchKey, sortKey);
+		} else {
+			List<Type> typeList = typeService.listByFatherType(type);
+			videoList = videoMapper.search(issue, top, typeList, searchKey, sortKey);
+		}
+		return videoList.stream()
 				.map(this::updateOwner)
 				.map(this::updateTagList)
-				.map(this::getAndSetIsLen)
+//				.map(this::getAndSetIsLen)
 				.map(this::updatePageList)
 				.collect(Collectors.toList());
 	}
 
 	private Video updateOwner(Video video) {
-		return video.setFace(ownerMapper.selectByOwnerName(video.getOwner()).getFace());
+		if (video == null || StringUtils.isEmpty(video.getOwner())) {
+			return video;
+		}
+		Owner owner = ownerService.get(video.getOwner());
+		if (owner == null) {
+			return video;
+		}
+		return video.setFace(owner.getFace());
 	}
 
 	private Video updatePageList(Video video) {
-		return video.setPages(videoPageMapper.selectAllByAv(video.getAv()));
+		return video.setPages(videoPageService.list(video.getAv()));
 	}
 
 	private Video updateTagList(Video video) {
 		return video.setTags(videoTagService.getTags(video.getAv()));
 	}
 
-	@Cacheable(value = "VideoService", key = "'cacheTest'")
-	public List<Video> cacheTest(List<Video> videoList) {
-		return videoList;
-	}
-
-	@Cacheable(value = "VideoService")
-	public List<Video> search(Short issue, int top, String type, String searchKey, String sortKey) {
-		List<Type> typeList = typeService.listByFatherType(type);
-		return search(issue, top, typeList, searchKey, sortKey);
-	}
-
-	@Cacheable(value = "VideoService")
-	public List<Video> search(Short issue, int top, Type type, String searchKey, String sortKey) {
-		return search(issue, top, type.getName(), searchKey, sortKey);
-	}
 
 	public Boolean falseDeleteVideo(long av) {
 		return videoInfoService.falseDeleteVideoByPrimaryKey(av);
@@ -130,7 +135,7 @@ public class VideoService {
 		return videoInfoService.recoveryVideoByPrimaryKey(av);
 	}
 
-	@Cacheable(value = "VideoService")
+	//	@Cacheable(value = "VideoService")
 	public Short getNewIssue() {
 		return videoDataService.getNewIssue();
 	}

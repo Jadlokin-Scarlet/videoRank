@@ -22,7 +22,7 @@ public class DataFileServiceTest {
 
 	@Test
 	public void getDataFile() {
-//		String dataFile = dataFileService.getDataFile((short) 3);
-//		System.out.println(dataFile);
+		String dataFile = dataFileService.getDataFile((short) 14);
+		System.out.println(dataFile);
 	}
 }

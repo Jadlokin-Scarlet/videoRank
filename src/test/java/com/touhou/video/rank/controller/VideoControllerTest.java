@@ -28,7 +28,8 @@ public class VideoControllerTest {
 
 	@Test
 	public void list() {
-		ResponseEntity<List<Video>> videoListEntity = videoController.search((short)10, "全部", 30, "", "point", false);
+		ResponseEntity<List<Video>> videoListEntity =
+				videoController.search((short)14, "全部", 30, "", "point", false);
 		List<Video> videoList = videoListEntity.getBody();
 		Assert.assertTrue(!videoList.isEmpty());
 		System.out.println(videoList);

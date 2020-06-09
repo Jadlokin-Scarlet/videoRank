@@ -60,7 +60,9 @@ public class Video implements Serializable {
 	}
 
 	public Video copyProperties(Object o) {
-		BeanUtils.copyProperties(o, this);
+		if (o != null) {
+			BeanUtils.copyProperties(o, this);
+		}
 		return this;
 	}
 

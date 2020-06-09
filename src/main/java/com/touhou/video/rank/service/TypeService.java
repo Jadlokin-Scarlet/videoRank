@@ -19,7 +19,7 @@ public class TypeService {
 	@Autowired
 	public TypeService(TypeMapper typeMapper) {
 		this.typeMapper = typeMapper;
-		ALL = this.getFirstType();
+		ALL = this.ALL();
 	}
 
 	private List<Type> list() {
@@ -52,10 +52,14 @@ public class TypeService {
 //		return sonList;
 //	}
 
-	public List<Type> listByFatherType(String fatherName) {
-		Type father = list().stream()
-				.filter(type -> fatherName.equals(type.getName()))
+	public Type getTypeByName(String name) {
+		return list().stream()
+				.filter(type -> name.equals(type.getName()))
 				.findFirst().orElse(null);
+	}
+
+	public List<Type> listByFatherType(String fatherName) {
+		Type father = getTypeByName(fatherName);
 		return listByFatherType(father);
 	}
 
@@ -63,7 +67,7 @@ public class TypeService {
 		return getSonMap().get(father.getId() - 1);
 	}
 
-	public Type getFirstType() {
+	public Type ALL() {
 		return list().get(1 - 1);
 	}
 }
