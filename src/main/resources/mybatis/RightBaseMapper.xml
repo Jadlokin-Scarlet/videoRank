@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.RightBaseMapper">
+  <resultMap id="BaseResultMap" type="com.touhou.video.rank.entity.Right">
+    <id column="av" jdbcType="NUMERIC" property="av" />
+    <result column="bp" jdbcType="NUMERIC" property="bp" />
+    <result column="elec" jdbcType="NUMERIC" property="elec" />
+    <result column="download" jdbcType="NUMERIC" property="download" />
+    <result column="movie" jdbcType="NUMERIC" property="movie" />
+    <result column="pay" jdbcType="NUMERIC" property="pay" />
+    <result column="hd5" jdbcType="NUMERIC" property="hd5" />
+    <result column="no_reprint" jdbcType="NUMERIC" property="noReprint" />
+    <result column="autoplay" jdbcType="NUMERIC" property="autoplay" />
+    <result column="ugc_pay" jdbcType="NUMERIC" property="ugcPay" />
+    <result column="is_cooperation" jdbcType="NUMERIC" property="isCooperation" />
+    <result column="ugc_pay_preview" jdbcType="NUMERIC" property="ugcPayPreview" />
+    <result column="no_background" jdbcType="NUMERIC" property="noBackground" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    av, bp, elec, download, movie, pay, hd5, no_reprint, autoplay, ugc_pay, is_cooperation, 
+    ugc_pay_preview, no_background
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from [right]
+    where av = #{av,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from [right]
+    where av = #{av,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.Right" useGeneratedKeys="true">
+    insert into [right] (av, bp, elec, 
+      download, movie, pay, 
+      hd5, no_reprint, autoplay, 
+      ugc_pay, is_cooperation, ugc_pay_preview, 
+      no_background)
+    values (#{av,jdbcType=NUMERIC}, #{bp,jdbcType=NUMERIC}, #{elec,jdbcType=NUMERIC}, 
+      #{download,jdbcType=NUMERIC}, #{movie,jdbcType=NUMERIC}, #{pay,jdbcType=NUMERIC}, 
+      #{hd5,jdbcType=NUMERIC}, #{noReprint,jdbcType=NUMERIC}, #{autoplay,jdbcType=NUMERIC}, 
+      #{ugcPay,jdbcType=NUMERIC}, #{isCooperation,jdbcType=NUMERIC}, #{ugcPayPreview,jdbcType=NUMERIC}, 
+      #{noBackground,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.Right" useGeneratedKeys="true">
+    insert into [right]
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        av,
+      </if>
+      <if test="bp != null">
+        bp,
+      </if>
+      <if test="elec != null">
+        elec,
+      </if>
+      <if test="download != null">
+        download,
+      </if>
+      <if test="movie != null">
+        movie,
+      </if>
+      <if test="pay != null">
+        pay,
+      </if>
+      <if test="hd5 != null">
+        hd5,
+      </if>
+      <if test="noReprint != null">
+        no_reprint,
+      </if>
+      <if test="autoplay != null">
+        autoplay,
+      </if>
+      <if test="ugcPay != null">
+        ugc_pay,
+      </if>
+      <if test="isCooperation != null">
+        is_cooperation,
+      </if>
+      <if test="ugcPayPreview != null">
+        ugc_pay_preview,
+      </if>
+      <if test="noBackground != null">
+        no_background,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        #{av,jdbcType=NUMERIC},
+      </if>
+      <if test="bp != null">
+        #{bp,jdbcType=NUMERIC},
+      </if>
+      <if test="elec != null">
+        #{elec,jdbcType=NUMERIC},
+      </if>
+      <if test="download != null">
+        #{download,jdbcType=NUMERIC},
+      </if>
+      <if test="movie != null">
+        #{movie,jdbcType=NUMERIC},
+      </if>
+      <if test="pay != null">
+        #{pay,jdbcType=NUMERIC},
+      </if>
+      <if test="hd5 != null">
+        #{hd5,jdbcType=NUMERIC},
+      </if>
+      <if test="noReprint != null">
+        #{noReprint,jdbcType=NUMERIC},
+      </if>
+      <if test="autoplay != null">
+        #{autoplay,jdbcType=NUMERIC},
+      </if>
+      <if test="ugcPay != null">
+        #{ugcPay,jdbcType=NUMERIC},
+      </if>
+      <if test="isCooperation != null">
+        #{isCooperation,jdbcType=NUMERIC},
+      </if>
+      <if test="ugcPayPreview != null">
+        #{ugcPayPreview,jdbcType=NUMERIC},
+      </if>
+      <if test="noBackground != null">
+        #{noBackground,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.touhou.video.rank.entity.Right">
+    update [right]
+    <set>
+      <if test="bp != null">
+        bp = #{bp,jdbcType=NUMERIC},
+      </if>
+      <if test="elec != null">
+        elec = #{elec,jdbcType=NUMERIC},
+      </if>
+      <if test="download != null">
+        download = #{download,jdbcType=NUMERIC},
+      </if>
+      <if test="movie != null">
+        movie = #{movie,jdbcType=NUMERIC},
+      </if>
+      <if test="pay != null">
+        pay = #{pay,jdbcType=NUMERIC},
+      </if>
+      <if test="hd5 != null">
+        hd5 = #{hd5,jdbcType=NUMERIC},
+      </if>
+      <if test="noReprint != null">
+        no_reprint = #{noReprint,jdbcType=NUMERIC},
+      </if>
+      <if test="autoplay != null">
+        autoplay = #{autoplay,jdbcType=NUMERIC},
+      </if>
+      <if test="ugcPay != null">
+        ugc_pay = #{ugcPay,jdbcType=NUMERIC},
+      </if>
+      <if test="isCooperation != null">
+        is_cooperation = #{isCooperation,jdbcType=NUMERIC},
+      </if>
+      <if test="ugcPayPreview != null">
+        ugc_pay_preview = #{ugcPayPreview,jdbcType=NUMERIC},
+      </if>
+      <if test="noBackground != null">
+        no_background = #{noBackground,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where av = #{av,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.touhou.video.rank.entity.Right">
+    update [right]
+    set bp = #{bp,jdbcType=NUMERIC},
+      elec = #{elec,jdbcType=NUMERIC},
+      download = #{download,jdbcType=NUMERIC},
+      movie = #{movie,jdbcType=NUMERIC},
+      pay = #{pay,jdbcType=NUMERIC},
+      hd5 = #{hd5,jdbcType=NUMERIC},
+      no_reprint = #{noReprint,jdbcType=NUMERIC},
+      autoplay = #{autoplay,jdbcType=NUMERIC},
+      ugc_pay = #{ugcPay,jdbcType=NUMERIC},
+      is_cooperation = #{isCooperation,jdbcType=NUMERIC},
+      ugc_pay_preview = #{ugcPayPreview,jdbcType=NUMERIC},
+      no_background = #{noBackground,jdbcType=NUMERIC}
+    where av = #{av,jdbcType=NUMERIC}
+  </update>
+</mapper>

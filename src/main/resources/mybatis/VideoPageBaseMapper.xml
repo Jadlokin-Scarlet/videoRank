@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.VideoPageBaseMapper">
+  <resultMap id="BaseResultMap" type="com.touhou.video.rank.entity.VideoPage">
+    <id column="cid" jdbcType="NUMERIC" property="cid" />
+    <id column="av" jdbcType="NUMERIC" property="av" />
+    <result column="part" jdbcType="NVARCHAR" property="part" />
+    <result column="page" jdbcType="NUMERIC" property="page" />
+    <result column="from" jdbcType="NVARCHAR" property="from" />
+    <result column="duration" jdbcType="NUMERIC" property="duration" />
+    <result column="vid" jdbcType="NVARCHAR" property="vid" />
+    <result column="weblink" jdbcType="NVARCHAR" property="weblink" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cid, av, [part], page, [from], duration, vid, weblink
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from page
+    where cid = #{cid,jdbcType=NUMERIC}
+      and av = #{av,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from page
+    where cid = #{cid,jdbcType=NUMERIC}
+      and av = #{av,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoPage" useGeneratedKeys="true">
+    insert into page (cid, av, [part], 
+      page, [from], duration, 
+      vid, weblink)
+    values (#{cid,jdbcType=NUMERIC}, #{av,jdbcType=NUMERIC}, #{part,jdbcType=NVARCHAR}, 
+      #{page,jdbcType=NUMERIC}, #{from,jdbcType=NVARCHAR}, #{duration,jdbcType=NUMERIC}, 
+      #{vid,jdbcType=NVARCHAR}, #{weblink,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoPage" useGeneratedKeys="true">
+    insert into page
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="av != null">
+        av,
+      </if>
+      <if test="part != null">
+        [part],
+      </if>
+      <if test="page != null">
+        page,
+      </if>
+      <if test="from != null">
+        [from],
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="vid != null">
+        vid,
+      </if>
+      <if test="weblink != null">
+        weblink,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=NUMERIC},
+      </if>
+      <if test="av != null">
+        #{av,jdbcType=NUMERIC},
+      </if>
+      <if test="part != null">
+        #{part,jdbcType=NVARCHAR},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=NUMERIC},
+      </if>
+      <if test="from != null">
+        #{from,jdbcType=NVARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="vid != null">
+        #{vid,jdbcType=NVARCHAR},
+      </if>
+      <if test="weblink != null">
+        #{weblink,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.touhou.video.rank.entity.VideoPage">
+    update page
+    <set>
+      <if test="part != null">
+        [part] = #{part,jdbcType=NVARCHAR},
+      </if>
+      <if test="page != null">
+        page = #{page,jdbcType=NUMERIC},
+      </if>
+      <if test="from != null">
+        [from] = #{from,jdbcType=NVARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="vid != null">
+        vid = #{vid,jdbcType=NVARCHAR},
+      </if>
+      <if test="weblink != null">
+        weblink = #{weblink,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=NUMERIC}
+      and av = #{av,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.touhou.video.rank.entity.VideoPage">
+    update page
+    set [part] = #{part,jdbcType=NVARCHAR},
+      page = #{page,jdbcType=NUMERIC},
+      [from] = #{from,jdbcType=NVARCHAR},
+      duration = #{duration,jdbcType=NUMERIC},
+      vid = #{vid,jdbcType=NVARCHAR},
+      weblink = #{weblink,jdbcType=NVARCHAR}
+    where cid = #{cid,jdbcType=NUMERIC}
+      and av = #{av,jdbcType=NUMERIC}
+  </update>
+</mapper>

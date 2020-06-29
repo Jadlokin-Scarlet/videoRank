@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.touhou.video.rank.mapper.AvBaseMapper">
+  <resultMap id="BaseResultMap" type="com.touhou.video.rank.entity.Av">
+    <result column="av" jdbcType="DECIMAL" property="av" />
+    <result column="bv" jdbcType="NVARCHAR" property="bv" />
+  </resultMap>
+  <insert id="insert" keyProperty="id" parameterType="com.touhou.video.rank.entity.Av" useGeneratedKeys="true">
+    insert into touhou_all (av, bv)
+    values (#{av,jdbcType=DECIMAL}, #{bv,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.Av" useGeneratedKeys="true">
+    insert into touhou_all
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        av,
+      </if>
+      <if test="bv != null">
+        bv,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="av != null">
+        #{av,jdbcType=DECIMAL},
+      </if>
+      <if test="bv != null">
+        #{bv,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
