@@ -18,10 +18,11 @@
     <result column="duration" jdbcType="NUMERIC" property="duration" />
     <result column="mission_id" jdbcType="NUMERIC" property="missionId" />
     <result column="dynamic" jdbcType="NVARCHAR" property="dynamic" />
+    <result column="start_page" jdbcType="NUMERIC" property="startPage" />
   </resultMap>
   <sql id="Base_Column_List">
     av, [name], img, [type], [owner], copyright, pub_time, start_time, is_delete, bv, 
-    description, [state], [attribute], duration, mission_id, [dynamic]
+    description, [state], [attribute], duration, mission_id, [dynamic], start_page
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -39,13 +40,13 @@
       pub_time, start_time, is_delete, 
       bv, description, [state], 
       [attribute], duration, mission_id, 
-      [dynamic])
+      [dynamic], start_page)
     values (#{av,jdbcType=NUMERIC}, #{name,jdbcType=NVARCHAR}, #{img,jdbcType=NVARCHAR}, 
       #{type,jdbcType=NVARCHAR}, #{owner,jdbcType=NVARCHAR}, #{copyright,jdbcType=BIT}, 
       #{pubTime,jdbcType=NVARCHAR}, #{startTime,jdbcType=NUMERIC}, #{isDelete,jdbcType=BIT}, 
       #{bv,jdbcType=NVARCHAR}, #{description,jdbcType=NVARCHAR}, #{state,jdbcType=NUMERIC}, 
       #{attribute,jdbcType=NUMERIC}, #{duration,jdbcType=NUMERIC}, #{missionId,jdbcType=NUMERIC}, 
-      #{dynamic,jdbcType=NVARCHAR})
+      #{dynamic,jdbcType=NVARCHAR}, #{startPage,jdbcType=NUMERIC})
   </insert>
   <insert id="insertSelective" keyProperty="id" parameterType="com.touhou.video.rank.entity.VideoInfo" useGeneratedKeys="true">
     insert into video_info
@@ -98,6 +99,9 @@
       <if test="dynamic != null">
         [dynamic],
       </if>
+      <if test="startPage != null">
+        start_page,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="av != null">
@@ -147,6 +151,9 @@
       </if>
       <if test="dynamic != null">
         #{dynamic,jdbcType=NVARCHAR},
+      </if>
+      <if test="startPage != null">
+        #{startPage,jdbcType=NUMERIC},
       </if>
     </trim>
   </insert>
@@ -198,6 +205,9 @@
       <if test="dynamic != null">
         [dynamic] = #{dynamic,jdbcType=NVARCHAR},
       </if>
+      <if test="startPage != null">
+        start_page = #{startPage,jdbcType=NUMERIC},
+      </if>
     </set>
     where av = #{av,jdbcType=NUMERIC}
   </update>
@@ -217,7 +227,8 @@
       [attribute] = #{attribute,jdbcType=NUMERIC},
       duration = #{duration,jdbcType=NUMERIC},
       mission_id = #{missionId,jdbcType=NUMERIC},
-      [dynamic] = #{dynamic,jdbcType=NVARCHAR}
+      [dynamic] = #{dynamic,jdbcType=NVARCHAR},
+      start_page = #{startPage,jdbcType=NUMERIC}
     where av = #{av,jdbcType=NUMERIC}
   </update>
 </mapper>

@@ -39,5 +39,7 @@ public class VideoInfo implements Serializable {
 
     private String dynamic;
 
+    private Integer startPage;
+
     private static final long serialVersionUID = 1L;
 }

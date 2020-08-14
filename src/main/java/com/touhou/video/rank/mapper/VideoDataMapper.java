@@ -12,6 +12,8 @@ public interface VideoDataMapper extends VideoDataBaseMapper{
 
 	List<VideoData> selectAll(Short issue, int limit, @Param("typeList") List<Type> typeList);
 
+	long selectRankByAvAndIssue(long av, short issue);
+
 	Short getNewIssue();
 
 	int deleteByPrimaryKey(long av);

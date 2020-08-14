@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +25,9 @@ public class VideoTagService {
 	@Cacheable(cacheNames = "videoTag", key = "#av")
 	public List<String> getTags(long av) {
 		Map<String, String> map = videoTagMapper.selectForTagsByPrimaryKey(av);
+		if (map == null) {
+			return Collections.emptyList();
+		}
 		return IntStream.range(1, 20)
 				.mapToObj(i -> "tag" + i)
 				.map(map::get)

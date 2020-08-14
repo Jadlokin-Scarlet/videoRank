@@ -1,5 +1,6 @@
 package com.touhou.video.rank.service;
 
+import com.touhou.video.rank.entity.Type;
 import com.touhou.video.rank.entity.VideoData;
 import com.touhou.video.rank.mapper.VideoDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,14 @@ public class VideoDataService {
 	public VideoData getVideoDataByAv(long av, short issue) {
 		VideoData videoData = videoDataMapper.selectByPrimaryKey(av, issue);
 		if (videoData == null) {
-			insertEmptyVideoData(av, issue);
-			videoData = videoDataMapper.selectByPrimaryKey(av, issue);
+			return getEmptyVideoData(av, issue);
+//			insertEmptyVideoData(av, issue);
+//			return videoDataMapper.selectByPrimaryKey(av, issue);
 		}
+		long rank = selectAll(issue, 255, typeService.ALL().getName())
+				.filter(otherVideoData -> otherVideoData.getPoint() > videoData.getPoint())
+				.count() + 1;
+		videoData.setRank(rank > 255? 0: rank);
 		return videoData;
 	}
 
@@ -44,7 +50,7 @@ public class VideoDataService {
 	}
 
 	private VideoData getEmptyVideoData(long av, short issue) {
-		return new VideoData().setAv(av).setIssue(issue);
+		return new VideoData().setAv(av).setIssue(issue).setRank(0L);
 	}
 
 

@@ -6,13 +6,19 @@
     <include refid="com.touhou.video.rank.mapper.VideoDataBaseMapper.Base_Column_List" />
     from video_data
       inner join (select av as info_av, type, is_delete from video_info) info on video_data.av = info.info_av
-    inner join (select av as tag_av from touhouTag) tag on video_data.av = tag.tag_av
+      inner join (select av as tag_av from touhouTag) tag on video_data.av = tag.tag_av
     where issue = #{issue,jdbcType=NUMERIC}
       and info.is_delete = 0
       and type in <foreach collection="typeList" item="type" open="(" close=")" separator=",">
         #{type.name}
       </foreach>
     order by point desc
+  </select>
+  <select id="selectRankByAvAndIssue" resultType="java.lang.Long">
+    select count(av) + 1 as rank
+    from video_data
+    where issue = #{issue, jdbcType=NUMERIC}
+      and point > (select point from video_data where issue = #{issue, jdbcType=NUMERIC} and av = #{av,jdbcType=NUMERIC})
   </select>
   <select id="getNewIssue" resultType="java.lang.Short">
     select max(issue)

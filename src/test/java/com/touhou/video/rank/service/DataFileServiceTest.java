@@ -19,10 +19,12 @@ public class DataFileServiceTest {
 
 	@Autowired
 	private DataFileService dataFileService;
+	@Autowired
+	private VideoService videoService;
 
 	@Test
 	public void getDataFile() {
-		String dataFile = dataFileService.getDataFile((short) 14);
+		String dataFile = dataFileService.getDataFile(videoService.getNewIssue());
 		System.out.println(dataFile);
 	}
 }
