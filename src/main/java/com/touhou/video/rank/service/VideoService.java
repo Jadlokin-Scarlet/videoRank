@@ -1,15 +1,11 @@
 package com.touhou.video.rank.service;
 
 import com.touhou.video.rank.entity.*;
-import com.touhou.video.rank.mapper.OwnerMapper;
 import com.touhou.video.rank.mapper.VideoMapper;
-import com.touhou.video.rank.mapper.VideoPageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
