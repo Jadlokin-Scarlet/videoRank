@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.touhou.video.rank.mapper.VideoMapper">
+
+
 	<select id="search" resultType="com.touhou.video.rank.entity.Video">
-		select top ${top} *
-		from (select * from video_data where issue = #{issue}) data
-			LEFT join video_info on data.av = video_info.av
+		select top ${top}
+			video_info.av,
+			video_info.name,
+			video_info.img,
+			video_info.type,
+			video_info.owner,
+			video_info.copyright,
+			video_info.pub_time as pubTime,
+			video_info.start_time as StartTime,
+			video_info.is_delete,
+			video_info.bv,
+			video_info.description,
+			video_info.state,
+			video_info.duration,
+			video_info.mission_id as MissionId,
+			video_info.dynamic,
+			video_info.start_page as StartPage,
+			video_data.[view],
+			video_data.reply,
+			video_data.favorite,
+			video_data.coin,
+			video_data.page,
+			video_data.point,
+			video_data.rank,
+			video_data.issue,
+			video_data.danmaku,
+			video_data.share,
+			video_data.[like],
+			video_data.dislike,
+			video_data.evaluation
+		from (select * from video_data where issue = #{issue}) video_data
+			LEFT join video_info on video_data.av = video_info.av
 		where video_info.is_delete = 0
 			and video_info.type in <foreach collection="typeList" item="type" open="(" close=")" separator=",">
 				#{type.name}
@@ -14,9 +45,38 @@
 	</select>
 
 	<select id="searchAllType" resultType="com.touhou.video.rank.entity.Video">
-		select top ${top} *
-		from (select * from video_data where issue = #{issue}) data
-			LEFT join video_info on data.av = video_info.av
+		select top ${top}
+			video_info.av,
+			video_info.name,
+			video_info.img,
+			video_info.type,
+			video_info.owner,
+			video_info.copyright,
+			video_info.pub_time as pubTime,
+			video_info.start_time as StartTime,
+			video_info.is_delete,
+			video_info.bv,
+			video_info.description,
+			video_info.state,
+			video_info.duration,
+			video_info.mission_id as MissionId,
+			video_info.dynamic,
+			video_info.start_page as StartPage,
+			video_data.[view],
+			video_data.reply,
+			video_data.favorite,
+			video_data.coin,
+			video_data.page,
+			video_data.point,
+			video_data.rank,
+			video_data.issue,
+			video_data.danmaku,
+			video_data.share,
+			video_data.[like],
+			video_data.dislike,
+			video_data.evaluation
+		from (select * from video_data where issue = #{issue}) video_data
+			LEFT join video_info on video_data.av = video_info.av
 		where video_info.is_delete = 0
 		 	and video_info.name like ('%' + #{searchKey} + '%')
 		order by [${sortKey}] desc

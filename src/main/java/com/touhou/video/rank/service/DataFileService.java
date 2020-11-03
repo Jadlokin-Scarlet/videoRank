@@ -1,5 +1,6 @@
 package com.touhou.video.rank.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class DataFileService {
 
@@ -34,7 +36,9 @@ public class DataFileService {
 				.map(videoService::changeToShortPubTime)
 				.map(BeanMap::new)
 				.map(beanMap -> fields.stream()
+						.peek(field -> {if (beanMap.get(field) == null) {log.error("av{}, field {} is null",beanMap.get("av") , field);}})
 						.map(beanMap::get)
+						.map(value -> value == null? "": value)
 						.map(Object::toString)
 						.collect(Collectors.joining("\t")))
 				.collect(Collectors.joining("\n"));

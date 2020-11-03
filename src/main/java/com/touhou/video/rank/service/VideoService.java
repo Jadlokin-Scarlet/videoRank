@@ -137,6 +137,9 @@ public class VideoService {
 	}
 
 	Video changeToShortPubTime(Video video) {
+		if (video.getPubTime() == null) {
+			return video;
+		}
 		String shortPubTime = video.getPubTime().split(" ")[0];
 		return video.setPubTime(shortPubTime);
 	}
