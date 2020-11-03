@@ -3,7 +3,6 @@ package com.touhou.video.rank.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;

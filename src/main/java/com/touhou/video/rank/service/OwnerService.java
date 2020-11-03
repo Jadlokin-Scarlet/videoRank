@@ -16,7 +16,7 @@ public class OwnerService {
 		this.ownerMapper = ownerMapper;
 	}
 
-	@Cacheable(cacheNames = "owner")
+	// @Cacheable(cacheNames = "owner")
 	public Owner get(String name) {
 		return ownerMapper.selectByOwnerName(name);
 	}

@@ -1,43 +1,20 @@
 package com.touhou.video.rank.config;
 
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.cache.RedisCacheWriter;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-@Configuration
-@EnableCaching
+//@Configuration
+//@EnableCaching
 public class RestTemplateConfig extends CachingConfigurerSupport {
-	@Bean
-	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-		RedisCacheConfiguration redisCacheConfiguration=RedisCacheConfiguration.defaultCacheConfig();
-//				.entryTtl(Duration.ofDays(1)
-//				);
-		return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-				.cacheDefaults(redisCacheConfiguration)
-				.build();
-	}
+
+//	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+//		RedisCacheConfiguration redisCacheConfiguration=RedisCacheConfiguration.defaultCacheConfig();
+////				.entryTtl(Duration.ofDays(1)
+////				);
+//		return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
+//				.cacheDefaults(redisCacheConfiguration)
+//				.build();
+//	}
 
 //	public Cache cache() {
 //		return RedisCache
@@ -74,21 +51,21 @@ public class RestTemplateConfig extends CachingConfigurerSupport {
 //						.fromSerializer(jackson2JsonRedisSerializer))
 //				.entryTtl(Duration.ofSeconds(seconds));
 //	}
-	@Override
-	@Bean
-	@Primary
-	public KeyGenerator keyGenerator() {
-		return (target, method, params) -> {
-			if(params==null){
-				return null;
-			}
-			String join = Arrays.stream(params)
-					.map(Object::toString)
-					.collect(Collectors.joining(","));
-			return String.format("%s.%s(%s)",
-					target.getClass().getName(),
-					method.getName(),
-					join);
-		};
-	}
+//	@Override
+//	@Bean
+//	@Primary
+//	public KeyGenerator keyGenerator() {
+//		return (target, method, params) -> {
+//			if(params==null){
+//				return null;
+//			}
+//			String join = Arrays.stream(params)
+//					.map(Object::toString)
+//					.collect(Collectors.joining(","));
+//			return String.format("%s.%s(%s)",
+//					target.getClass().getName(),
+//					method.getName(),
+//					join);
+//		};
+//	}
 }

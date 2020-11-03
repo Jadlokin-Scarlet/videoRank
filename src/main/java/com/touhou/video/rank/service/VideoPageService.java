@@ -18,7 +18,7 @@ public class VideoPageService {
 		this.videoPageMapper = videoPageMapper;
 	}
 
-	@Cacheable(cacheNames = "videoPage")
+	// @Cacheable(cacheNames = "videoPage")
 	public List<VideoPage> list(long av) {
 		return videoPageMapper.selectAllByAv(av);
 	}

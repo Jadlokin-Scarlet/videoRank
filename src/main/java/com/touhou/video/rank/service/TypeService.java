@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// @Cacheable(cacheNames = "TypeService")
 @Service
-@Cacheable(cacheNames = "TypeService")
 public class TypeService {
 	public final Type ALL;
 	private TypeMapper typeMapper;

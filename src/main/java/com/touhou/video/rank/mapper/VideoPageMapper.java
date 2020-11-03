@@ -1,9 +1,7 @@
 package com.touhou.video.rank.mapper;
 
 import com.touhou.video.rank.entity.VideoPage;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

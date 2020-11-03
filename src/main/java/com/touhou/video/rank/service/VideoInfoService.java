@@ -26,7 +26,7 @@ public class VideoInfoService {
 		this.typeService = typeService;
 	}
 
-	@Cacheable(cacheNames = "videoInfo", key = "#av")
+	// @Cacheable(cacheNames = "videoInfo", key = "#av")
 	public VideoInfo selectByPrimaryKey(Long av) {
 		return videoInfoMapper.selectByPrimaryKey(av);
 //		return changeDateFormat(videoInfo);
